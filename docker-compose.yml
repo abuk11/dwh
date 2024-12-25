@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+    restart: always
+
+  spark:
+    image: jupyter/all-spark-notebook:latest
+    container_name: spark-container
+    environment:
+      - SPARK_OPTS=--driver-class-path /home/jovyan/jars/postgresql-42.7.4.jar
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./scripts:/home/jovyan/scripts
+      - ./csv_data:/home/jovyan/csv_data
+      - ./sql:/home/jovyan/sql
+      - ./postgresql-42.7.4.jar:/home/jovyan/jars/postgresql-42.7.4.jar
+    depends_on:
+      - postgres
+
+networks:
+  default:
+    name: dwh_network
+
+volumes:
+  postgres_data:
+
