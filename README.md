@@ -22,7 +22,7 @@
     ├── DDL_craft_market_dwh.sql \
     ├── DDL_craft_market_source_1.sql \
     ├── DDL_craft_market_source_2.sql \
-    └── DDL_craft_market_source_3.sql \
+    └── DDL_craft_market_source_3.sql 
 
 
 # Требования
